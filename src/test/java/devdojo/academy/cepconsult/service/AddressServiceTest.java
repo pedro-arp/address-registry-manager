@@ -2,7 +2,7 @@ package devdojo.academy.cepconsult.service;
 
 import devdojo.academy.cepconsult.commons.AddressUtils;
 import devdojo.academy.cepconsult.domain.Address;
-import devdojo.academy.cepconsult.repository.AddressHardCodedRepository;
+import devdojo.academy.cepconsult.repository.AddressRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +21,7 @@ class AddressServiceTest {
     private List<Address> address;
 
     @Mock
-    private AddressHardCodedRepository repository;
+    private AddressRepository repository;
 
     @InjectMocks
     private AddressUtils addressUtils;

@@ -7,8 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AddressGetResponse {
-    private Long id;
+public class AddressGetResponseCep {
     private String cep;
     private String logradouro;
     private String complemento;

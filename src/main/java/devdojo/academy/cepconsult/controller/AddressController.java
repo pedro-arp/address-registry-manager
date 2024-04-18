@@ -1,15 +1,20 @@
 package devdojo.academy.cepconsult.controller;
 
+import devdojo.academy.cepconsult.domain.Address;
 import devdojo.academy.cepconsult.mapper.AddressMapper;
+import devdojo.academy.cepconsult.request.AddressPutRequest;
 import devdojo.academy.cepconsult.response.AddressGetResponse;
+import devdojo.academy.cepconsult.response.AddressGetResponseCep;
+import devdojo.academy.cepconsult.response.AddressPostResponse;
 import devdojo.academy.cepconsult.service.AddressService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = {"v1/address", "v1/address/"})
@@ -21,17 +26,77 @@ public class AddressController {
 
     private final AddressMapper mapper;
 
+    @GetMapping
+    public ResponseEntity<List<AddressGetResponse>> findAll() {
 
-    @GetMapping("{cep}")
-    public ResponseEntity<AddressGetResponse> findByCep(@PathVariable("cep") String cep) {
+        log.info("Request received find all address in database ");
+
+        var address = service.findAll();
+
+        var response = mapper.toAddressList(address);
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    @GetMapping("/search/{cep}")
+    public ResponseEntity<AddressGetResponseCep> findByCep(@PathVariable("cep") String cep) {
 
         log.info("Request received find address by cep '{}'", cep);
 
         var address = service.findByCep(cep);
 
+        var response = mapper.toAddressGetResponseCep(address);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<AddressGetResponse> findById(@PathVariable("id") Long id) {
+        log.info("Request received find address by id '{}'", id);
+
+        var address = service.findById(id);
+
         var response = mapper.toAddressGetResponse(address);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("{cep}")
+    public ResponseEntity<AddressPostResponse> save(@PathVariable("cep") @Valid String cep) {
+
+        log.info("Request received to save address by cep '{}'", cep);
+
+        var addressToSave = service.save(cep);
+
+        var response = mapper.addressPostResponse(addressToSave);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Address address) {
+
+        log.info("Request received to delete address by id '{}'", address);
+
+        service.delete(address);
+
+        return ResponseEntity.noContent().build();
+
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> update(@Valid @RequestBody AddressPutRequest request) {
+
+        log.info("Request received to update address by id '{}'", request);
+
+        var address = mapper.toAddress(request);
+
+        service.update(address);
+
+        return ResponseEntity.noContent().build();
+
     }
 
 }

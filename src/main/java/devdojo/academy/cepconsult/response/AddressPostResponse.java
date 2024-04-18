@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AddressGetResponse {
+public class AddressPostResponse {
     private Long id;
     private String cep;
     private String logradouro;
