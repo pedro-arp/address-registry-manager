@@ -1,6 +1,5 @@
 package devdojo.academy.cepconsult.controller;
 
-import devdojo.academy.cepconsult.domain.Address;
 import devdojo.academy.cepconsult.mapper.AddressMapper;
 import devdojo.academy.cepconsult.request.AddressPutRequest;
 import devdojo.academy.cepconsult.response.AddressGetResponse;
@@ -40,7 +39,7 @@ public class AddressController {
     }
 
     @GetMapping("/search/{cep}")
-    public ResponseEntity<AddressGetResponseCep> findByCep(@PathVariable("cep") String cep) {
+    public ResponseEntity<AddressGetResponseCep> findByCep(@PathVariable String cep) {
 
         log.info("Request received find address by cep '{}'", cep);
 
@@ -52,7 +51,7 @@ public class AddressController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AddressGetResponse> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<AddressGetResponse> findById(@PathVariable Long id) {
         log.info("Request received find address by id '{}'", id);
 
         var address = service.findById(id);
@@ -76,11 +75,11 @@ public class AddressController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Address address) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
 
-        log.info("Request received to delete address by id '{}'", address);
+        log.info("Request received to delete address by id '{}'", id);
 
-        service.delete(address);
+        service.delete(id);
 
         return ResponseEntity.noContent().build();
 
