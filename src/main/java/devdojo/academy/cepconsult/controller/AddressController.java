@@ -41,7 +41,7 @@ public class AddressController {
     @GetMapping("/search/{cep}")
     public ResponseEntity<AddressGetResponseCep> findByCep(@PathVariable String cep) {
 
-        log.info("Request received find address by cep '{}'", cep);
+        log.info("Request received find address by uriCep '{}'", cep);
 
         var address = service.findByCep(cep);
 
@@ -64,7 +64,7 @@ public class AddressController {
     @PostMapping("{cep}")
     public ResponseEntity<AddressPostResponse> save(@PathVariable("cep") @Valid String cep) {
 
-        log.info("Request received to save address by cep '{}'", cep);
+        log.info("Request received to save address by uriCep '{}'", cep);
 
         var addressToSave = service.save(cep);
 

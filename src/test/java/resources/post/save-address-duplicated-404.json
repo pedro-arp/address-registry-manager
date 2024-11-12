@@ -1,1 +1,4 @@
-{"status":400,"message":"400 BAD_REQUEST \"Address %s is already in use\""}
+{
+  "status": 400,
+  "message": "400 BAD_REQUEST \"Address %s is already in use\""
+}

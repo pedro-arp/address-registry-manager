@@ -12,7 +12,7 @@ import lombok.ToString;
 public class AddressPutRequest {
     @NotNull
     private Long id;
-    @NotBlank(message = "the field 'cep' is required")
+    @NotBlank(message = "the field 'uriCep' is required")
     private String cep;
     @NotBlank(message = "the field 'logradouro' id required")
     private String logradouro;

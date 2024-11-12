@@ -1,13 +1,21 @@
 server:
-  port: 8080
+  port: 7070
   error:
-    include-stacktrace: never
+    include-stacktrace: NEVER
+logging:
+  level:
+    org.springframework.security: DEBUG
 spring:
+  application:
+    name: user-service
   datasource:
-    url: jdbc:mysql://localhost:3307/address_service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: ${ROOT_USERNAME:root}
+    url: jdbc:mysql://localhost:3307/user_service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: ${ROOT_USER:root}
     password: ${ROOT_PASSWORD:example}
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
+viacep-api:
+  base-url: "https://viacep.com.br/ws/"
+  uri-cep: "{uriCep}/json/"

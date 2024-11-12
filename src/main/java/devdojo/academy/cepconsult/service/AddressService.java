@@ -1,12 +1,16 @@
 package devdojo.academy.cepconsult.service;
 
-import devdojo.academy.cepconsult.consumes.AddressConsumes;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import devdojo.academy.cepconsult.config.ViaCepApiConfigurationProperties;
 import devdojo.academy.cepconsult.domain.Address;
 import devdojo.academy.cepconsult.exception.DuplicateEntryException;
 import devdojo.academy.cepconsult.exception.NotFoundException;
 import devdojo.academy.cepconsult.repository.AddressRepository;
+import devdojo.academy.cepconsult.response.CepErrorResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
@@ -19,60 +23,56 @@ public class AddressService {
 
     private final AddressRepository repository;
 
-    private final AddressConsumes consumes;
+    private final ViaCepApiConfigurationProperties properties;
+
+    private final RestClient viaCepRestClient;
+
+    private final ObjectMapper mapper;
+
+
+    public Address findByCep(String cep) {
+        return viaCepRestClient
+                .get()
+                .uri(properties.baseUrl() + properties.uriCep(), cep)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
+                    var cepErrorResponse = mapper.readValue(response.getBody().readAllBytes(), CepErrorResponse.class);
+                    throw new NotFoundException(cepErrorResponse.toString());
+                })
+                .body(Address.class);
+    }
 
 
     public List<Address> findAll() {
-
         return repository.findAll();
 
     }
 
-    public Address findByCep(String cep) {
-
-        return consumes.responseApi(cep).orElseThrow(() -> new NotFoundException(ADDRESS_NOT_FOUND));
-
-    }
-
     public Address findById(Long id) {
-
-
         return repository.findById(id).orElseThrow(() -> new NotFoundException(ADDRESS_NOT_FOUND));
 
     }
 
     public Address save(String cep) {
-
         var address = findByCep(cep);
-
         assertCepIsUnique(cep, address.getId());
-
         return repository.save(address);
 
     }
 
 
     public void delete(Long id) {
-
         var address = findById(id);
-
-
         repository.delete(address);
-
     }
 
     public void update(Address address) {
-
         assertAddressExistsInDatabase(address);
-
         repository.save(address);
-
     }
 
     private void assertAddressExistsInDatabase(Address address) {
-
         findById(address.getId());
-
     }
 
     private void assertCepIsUnique(String cep, Long addressId) {
