@@ -1,0 +1,11 @@
+server:
+  port: 7070
+  error:
+    include-stacktrace: NEVER
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+brasil-api:
+  base-url: "http://localhost:${wiremock.server.port}/api"
+  uri-cep: "/{cep}/json/"

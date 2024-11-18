@@ -16,6 +16,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-viacep-api:
-  base-url: "https://viacep.com.br/ws/"
-  uri-cep: "{uriCep}/json/"
+brasil-api:
+  base-url: ${BRASIL_API_BASE_URL:https://brasilapi.com.br/api}
+  uri-cep: ${BRASIL_API_URI:/cep/v1/{cep}}

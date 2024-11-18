@@ -19,16 +19,18 @@ public class Address {
     @Column(nullable = false, unique = true)
     private String cep;
     @Column(nullable = false)
-    private String logradouro;
-    private String complemento;
+    private String street;
     @Column(nullable = false)
-    private String bairro;
+    private String neighborhood;
     @Column(nullable = false)
-    private String localidade;
+    private String city;
     @Column(nullable = false)
-    private String uf;
-    private String ibge;
-    private String gia;
-    private String ddd;
-    private String siafi;
+    private String state;
+    private String service;
+
+
+
+
+
+
 }

@@ -3,7 +3,6 @@ package devdojo.academy.cepconsult.controller;
 import devdojo.academy.cepconsult.mapper.AddressMapper;
 import devdojo.academy.cepconsult.request.AddressPutRequest;
 import devdojo.academy.cepconsult.response.AddressGetResponse;
-import devdojo.academy.cepconsult.response.AddressGetResponseCep;
 import devdojo.academy.cepconsult.response.AddressPostResponse;
 import devdojo.academy.cepconsult.service.AddressService;
 import jakarta.validation.Valid;
@@ -39,13 +38,13 @@ public class AddressController {
     }
 
     @GetMapping("/search/{cep}")
-    public ResponseEntity<AddressGetResponseCep> findByCep(@PathVariable String cep) {
+    public ResponseEntity<AddressGetResponse> findByCep(@PathVariable String cep) {
 
         log.info("Request received find address by uriCep '{}'", cep);
 
         var address = service.findByCep(cep);
 
-        var response = mapper.toAddressGetResponseCep(address);
+        var response = mapper.toAddressGetResponse(address);
 
         return ResponseEntity.ok(response);
     }

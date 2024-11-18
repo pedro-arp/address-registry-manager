@@ -1,4 +1,10 @@
 package devdojo.academy.cepconsult.response;
 
-public record CepErrorResponse(String message) {
+import lombok.Builder;
+
+import java.util.List;
+
+@Builder
+public record CepErrorResponse(String name, String message, String type, List<CepInnerErrorResponse> errors) {
 }
+

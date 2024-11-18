@@ -14,17 +14,13 @@ public class AddressPutRequest {
     private Long id;
     @NotBlank(message = "the field 'uriCep' is required")
     private String cep;
-    @NotBlank(message = "the field 'logradouro' id required")
-    private String logradouro;
-    private String complemento;
-    @NotBlank(message = "the field 'bairro' id required")
-    private String bairro;
-    @NotBlank(message = "the field 'localidade' id required")
-    private String localidade;
-    @NotBlank(message = "the field 'uf' id required")
-    private String uf;
-    private String ibge;
-    private String gia;
-    private String ddd;
-    private String siafi;
+    @NotBlank(message = "the field 'city' id required")
+    private String city;
+    @NotBlank(message = "the field 'neighborhood' id required")
+    private String neighborhood;
+    @NotBlank(message = "the field 'street' id required")
+    private String street;
+    @NotBlank(message = "the field 'state' id required")
+    private String state;
+
 }

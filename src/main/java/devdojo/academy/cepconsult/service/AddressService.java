@@ -37,7 +37,7 @@ public class AddressService {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
                     var cepErrorResponse = mapper.readValue(response.getBody().readAllBytes(), CepErrorResponse.class);
-                    throw new NotFoundException(cepErrorResponse.toString());
+                    throw new NotFoundException(cepErrorResponse.message());
                 })
                 .body(Address.class);
     }

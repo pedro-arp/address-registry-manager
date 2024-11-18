@@ -6,8 +6,7 @@ import devdojo.academy.cepconsult.exception.DuplicateEntryException;
 import devdojo.academy.cepconsult.exception.NotFoundException;
 import devdojo.academy.cepconsult.mapper.AddressMapperImpl;
 import devdojo.academy.cepconsult.service.AddressService;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(AddressController.class)
 @Import({AddressMapperImpl.class, AddressUtils.class, FileUtils.class})
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AddressControllerTest {
     private static final String URL = "/v1/address";
     private static final String ADDRESS_NOT_FOUND = "Address not found";
@@ -40,6 +40,7 @@ class AddressControllerTest {
 
     @Test
     @DisplayName("findAll() returns 'all' addresses in data base")
+    @Order(1)
     void findAll_ReturnsAllAddresses_WhenSuccessful() throws Exception {
 
         var allAddress = addressUtils.newAddressList();
@@ -57,9 +58,10 @@ class AddressControllerTest {
 
     @Test
     @DisplayName("findByCep() returns the address according to the 'CEP'")
+    @Order(2)
     void findByCep_ReturnAddress_WhenSuccessful() throws Exception {
 
-        var address = addressUtils.newAddressList().get(0);
+        var address = addressUtils.newAddressList().getFirst();
 
         var cep = address.getCep();
 
@@ -76,6 +78,7 @@ class AddressControllerTest {
 
     @Test
     @DisplayName("findByCep() return 'null' fields when address does not exist yet")
+    @Order(3)
     void findByCep_ReturnAddressNullFields_WhenAddresDoesNotExistYet() throws Exception {
 
         var cep = "00000-000";
@@ -95,9 +98,10 @@ class AddressControllerTest {
 
     @Test
     @DisplayName("findById() returns the address according to the 'id'")
+    @Order(4)
     void findById_ReturnAddress_WhenSuccessful() throws Exception {
 
-        var address = addressUtils.newAddressList().get(0);
+        var address = addressUtils.newAddressList().getFirst();
 
         var id = 1L;
 
@@ -114,6 +118,7 @@ class AddressControllerTest {
 
     @Test
     @DisplayName("findById() throw NotFoundException when no address is found")
+    @Order(5)
     void findById_ReturnNotFoundException_WhenAddressNotFound() throws Exception {
 
         var idNotFound = 999L;
@@ -131,9 +136,10 @@ class AddressControllerTest {
 
     @Test
     @DisplayName("save() Creates Address in database")
+    @Order(6)
     void save_CreatesAddress_WhenSuccessful() throws Exception {
 
-        var address = addressUtils.newAddressList().get(0);
+        var address = addressUtils.newAddressList().getFirst();
 
         var cep = "00000-001";
 
@@ -150,9 +156,10 @@ class AddressControllerTest {
 
     @Test
     @DisplayName("save() Returns DuplicateEntryException when CEP is duplicated")
+    @Order(7)
     void save_ReturnsDuplicateEntryException_WhenCepIsDuplicated() throws Exception {
 
-        var addressDuplicatedToSave = addressUtils.newAddressList().get(0);
+        var addressDuplicatedToSave = addressUtils.newAddressList().getFirst();
 
         var cep = addressDuplicatedToSave.getCep();
 
@@ -169,6 +176,7 @@ class AddressControllerTest {
 
     @Test
     @DisplayName("delete() Removes address in database")
+    @Order(8)
     void delete_RemovesAddress_WhenSuccessful() throws Exception {
 
         BDDMockito.doNothing().when(service).delete(ArgumentMatchers.any());

@@ -28,57 +28,6 @@ class AddressServiceTest {
     private AddressService service;
 
 
-    //TODO update RestClient Test
-    @Test
-    @DisplayName("findByCep() returns the address according to the CEP")
-    void findByCep_ReturnAddress_WhenSuccessful() {
-
-//        var uriCep = address.get(0).getCep();
-//
-//        BDDMockito.when(service.findByCep(uriCep)).thenReturn()
-//
-//        var byCep = service.findByCep(uriCep);
-//
-//        Assertions.assertThat(byCep).isEqualTo(address.get(0));
-
-    }
-
-    @Test
-    @DisplayName("save() Creates Address in database")
-    void save_CreatesAddress_WhenSuccessful() {
-
-//        var addressToSave = addressUtils.newAddressToSave();
-//
-//        var cep = addressToSave.getCep();
-//
-//        BDDMockito.when(service.findByCep(cep)).thenReturn(addressToSave);
-//
-//        BDDMockito.when(repository.save(addressToSave)).thenReturn(addressToSave);
-//
-//        var addressSaved = service.save(addressToSave.getCep());
-//
-//        Assertions.assertThat(addressToSave).hasNoNullFieldsOrProperties().isNotNull().isEqualTo(addressSaved);
-
-    }
-
-    @Test
-    @DisplayName("save() Returns DuplicateEntryException when CEP is duplicated")
-    void save_ReturnsDuplicateEntryException_WhenCepIsDuplicated() {
-
-//        var addressDuplicatedToSave = this.address.get(0);
-//
-//        var cep = addressDuplicatedToSave.getCep();
-//
-//        BDDMockito.when(service.findByCep(cep)).thenReturn(addressDuplicatedToSave);
-//
-//        BDDMockito.doThrow(DuplicateEntryException.class).when(repository).save(addressDuplicatedToSave);
-//
-//        Assertions.assertThatException()
-//                .isThrownBy(() -> service.save(addressDuplicatedToSave.getCep()))
-//                .isInstanceOf(DuplicateEntryException.class);
-
-    }
-
     @Test
     @DisplayName("findAll() returns 'all' addresses in data base")
     void findAll_ReturnsAllAddresses_WhenSuccessful() {

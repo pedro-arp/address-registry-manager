@@ -1,12 +1,8 @@
 {
   "cep": "00000-001",
-  "logradouro": "Rua Teste 01",
-  "complemento": "",
-  "bairro": "Bairro Test 01",
-  "localidade": "São Paulo",
-  "uf": "SP",
-  "ibge": "0000001",
-  "gia": "0001",
-  "ddd": "01",
-  "siafi": "0001"
+  "state": "SP",
+  "city": "São Paulo",
+  "neighborhood": "Centro",
+  "street": "Rua Teste 01",
+  "service": "viacep"
 }
