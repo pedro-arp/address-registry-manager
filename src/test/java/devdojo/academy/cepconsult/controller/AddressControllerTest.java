@@ -4,7 +4,6 @@ import devdojo.academy.cepconsult.commons.AddressUtils;
 import devdojo.academy.cepconsult.commons.FileUtils;
 import devdojo.academy.cepconsult.exception.DuplicateEntryException;
 import devdojo.academy.cepconsult.exception.NotFoundException;
-import devdojo.academy.cepconsult.mapper.AddressMapperImpl;
 import devdojo.academy.cepconsult.service.AddressService;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
@@ -20,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(AddressController.class)
-@Import({AddressMapperImpl.class, AddressUtils.class, FileUtils.class})
+@Import({AddressUtils.class, FileUtils.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AddressControllerTest {
     private static final String URL = "/v1/address";
@@ -34,8 +33,6 @@ class AddressControllerTest {
     @Autowired
     private AddressUtils addressUtils;
     @Autowired
-    private FileUtils utils;
-    @Autowired
     private FileUtils fileUtils;
 
     @Test
@@ -45,7 +42,7 @@ class AddressControllerTest {
 
         var allAddress = addressUtils.newAddressList();
 
-        var response = utils.readResourceFile("get/find-all-address-200.json");
+        var response = fileUtils.readResourceFile("get/find-all-address-200.json");
 
         BDDMockito.when(service.findAll()).thenReturn(allAddress);
 
@@ -65,7 +62,7 @@ class AddressControllerTest {
 
         var cep = address.getCep();
 
-        var response = utils.readResourceFile("get/find-address-by-cep-200.json");
+        var response = fileUtils.readResourceFile("get/find-address-by-cep-200.json");
 
         BDDMockito.when(service.findByCep(cep)).thenReturn(address);
 
@@ -85,7 +82,7 @@ class AddressControllerTest {
 
         var address = addressUtils.addressNullFields();
 
-        var response = utils.readResourceFile("get/find-address-by-cep-null-fields-200.json");
+        var response = fileUtils.readResourceFile("get/find-address-by-cep-null-fields-200.json");
 
         BDDMockito.when(service.findByCep(cep)).thenReturn(address);
 
@@ -105,7 +102,7 @@ class AddressControllerTest {
 
         var id = 1L;
 
-        var response = utils.readResourceFile("get/find-address-by-id-200.json");
+        var response = fileUtils.readResourceFile("get/find-address-by-id-200.json");
 
         BDDMockito.when(service.findById(id)).thenReturn(address);
 
@@ -123,7 +120,7 @@ class AddressControllerTest {
 
         var idNotFound = 999L;
 
-        var response = utils.readResourceFile("response-not-found-address-by-id-404.json");
+        var response = fileUtils.readResourceFile("response-not-found-address-by-id-404.json");
 
         BDDMockito.when(service.findById(ArgumentMatchers.any())).thenThrow(new NotFoundException(ADDRESS_NOT_FOUND));
 
@@ -143,7 +140,7 @@ class AddressControllerTest {
 
         var cep = "00000-001";
 
-        var response = utils.readResourceFile("post/save-address-200.json");
+        var response = fileUtils.readResourceFile("post/save-address-200.json");
 
         BDDMockito.when(service.save(cep)).thenReturn(address);
 
@@ -163,7 +160,7 @@ class AddressControllerTest {
 
         var cep = addressDuplicatedToSave.getCep();
 
-        var response = utils.readResourceFile("post/save-address-duplicated-404.json");
+        var response = fileUtils.readResourceFile("post/save-address-duplicated-404.json");
 
         BDDMockito.doThrow(new DuplicateEntryException(ADDRESS_DUPLICATE)).when(service).save(cep);
 
@@ -206,7 +203,7 @@ class AddressControllerTest {
     @DisplayName("update() Update Address")
     void update_UpdateAddress_WhenSuccessful() throws Exception {
 
-        var request = utils.readResourceFile("put/update-address-200.json");
+        var request = fileUtils.readResourceFile("put/update-address-200.json");
 
         BDDMockito.doNothing().when(service).update(ArgumentMatchers.any());
 
@@ -219,9 +216,9 @@ class AddressControllerTest {
     @DisplayName("update() throw NotFoundException when no address is found")
     void update_ThrowNotFoundException_WhenAddressNotFound() throws Exception {
 
-        var request = utils.readResourceFile("put/update-address-200.json");
+        var request = fileUtils.readResourceFile("put/update-address-200.json");
 
-        var response = utils.readResourceFile("response-not-found-address-by-id-404.json");
+        var response = fileUtils.readResourceFile("response-not-found-address-by-id-404.json");
 
         BDDMockito.doThrow(new NotFoundException(ADDRESS_NOT_FOUND)).when(service).update(ArgumentMatchers.any());
 
@@ -231,7 +228,6 @@ class AddressControllerTest {
                 .andExpect(MockMvcResultMatchers.content().json(response));
 
     }
-
 
 
 }
