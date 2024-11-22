@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import devdojo.academy.cepconsult.commons.AddressUtils;
 import devdojo.academy.cepconsult.config.RestClientConfiguration;
 import devdojo.academy.cepconsult.config.ViaCepApiConfigurationProperties;
+import devdojo.academy.cepconsult.exception.DuplicateEntryException;
 import devdojo.academy.cepconsult.exception.NotFoundException;
 import devdojo.academy.cepconsult.repository.AddressRepository;
 import org.assertj.core.api.Assertions;
@@ -64,7 +65,7 @@ class AddressRestClientTest {
         var cepErrorResponse = addressUtils.newAddress();
         var jsonResponse = mapper.writeValueAsString(cepErrorResponse);
         var expectedErrorMessage = """
-                404 NOT_FOUND "CepErrorResponse[name=CepPromiseError, message=Todos os serviços de CEP retornaram erro., type=service_error, errors=[CepInnerErrorResponse[name=ServiceError, message=CEP INVÁLIDO, service=correios]]]"
+                404 NOT_FOUND
                 """.trim();
         var requestTo = MockRestRequestMatchers.requestToUriTemplate(properties.baseUrl() + properties.uriCep(), cep);
         var withResourceNotFound = MockRestResponseCreators.withResourceNotFound().body(jsonResponse);
@@ -95,23 +96,25 @@ class AddressRestClientTest {
                 .isEqualTo(cepGetResponse);
     }
 
-//    @Test
-//    @DisplayName("save() Returns DuplicateEntryException when CEP is duplicated")
-//    void save_ReturnsDuplicateEntryException_WhenCepIsDuplicated() {
-//
-//        var addressDuplicatedToSave = this.address.get(0);
-//
-//        var cep = addressDuplicatedToSave.getCep();
-//
-//        BDDMockito.when(service.findByCep(cep)).thenReturn(addressDuplicatedToSave);
-//
-//        BDDMockito.doThrow(DuplicateEntryException.class).when(repository).save(addressDuplicatedToSave);
-//
-//        Assertions.assertThatException()
-//                .isThrownBy(() -> service.save(addressDuplicatedToSave.getCep()))
-//                .isInstanceOf(DuplicateEntryException.class);
-//
-//    }
+    @Test
+    @DisplayName("save() Returns DuplicateEntryException when CEP is duplicated")
+    void save_ReturnsDuplicateEntryException_WhenCepIsDuplicated() throws JsonProcessingException {
+
+        var cepAlreadyExist = "00000-004";
+        var addressToSave = addressUtils.newAddress();
+        var jsonResponse = mapper.writeValueAsString(addressToSave);
+        var requestTo = MockRestRequestMatchers.requestToUriTemplate(properties.baseUrl() + properties.uriCep(), cepAlreadyExist);
+        var withBadRequest = MockRestResponseCreators.withSuccess(jsonResponse, MediaType.APPLICATION_JSON);
+
+        server.expect(requestTo).andRespond(withBadRequest);
+
+        BDDMockito.doThrow(DuplicateEntryException.class).when(repository).save(addressToSave);
+
+        Assertions.assertThatException()
+                .isThrownBy(() -> service.save(addressToSave.getCep()))
+                .isInstanceOf(DuplicateEntryException.class);
+
+    }
 
 
 }
