@@ -1,15 +1,14 @@
 package devdojo.academy.cepconsult.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Builder
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class AddressGetResponse {
+@Getter
+@Setter
+@ToString
+public class AddressPostResponse {
+    private Long id;
     private String cep;
     private String state;
     private String city;

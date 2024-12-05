@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "cep": "00000-001",
+  "state": "SP",
+  "city": "São Paulo",
+  "neighborhood": "Centro",
+  "street": "Rua Teste 01",
+  "service": "viacep"
+}

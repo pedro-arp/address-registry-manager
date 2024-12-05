@@ -2,12 +2,14 @@ package devdojo.academy.cepconsult;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
-public class CepConsultApplication {
+@ConfigurationPropertiesScan
+public class AddressServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CepConsultApplication.class, args);
+        SpringApplication.run(AddressServiceApplication.class, args);
     }
 
 }

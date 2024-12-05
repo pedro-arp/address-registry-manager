@@ -1,23 +1,32 @@
 package devdojo.academy.cepconsult.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
 @ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Address {
+    @EqualsAndHashCode.Include
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false, unique = true)
     private String cep;
-    private String logradouro;
-    private String complemento;
-    private String bairro;
-    private String localidade;
-    private String uf;
-    private String ibge;
-    private String gia;
-    private String ddd;
-    private String siafi;
+    @Column(nullable = false)
+    private String street;
+    @Column(nullable = false)
+    private String neighborhood;
+    @Column(nullable = false)
+    private String city;
+    @Column(nullable = false)
+    private String state;
+    private String service;
+
+
 }

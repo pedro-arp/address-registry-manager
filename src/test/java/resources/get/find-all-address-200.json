@@ -1,0 +1,26 @@
+[
+  {
+    "cep": "00000-001",
+    "state": "SP",
+    "city": "São Paulo",
+    "neighborhood": "Centro",
+    "street": "Rua Teste 01",
+    "service": "viacep"
+  },
+  {
+    "cep": "00000-002",
+    "state": "SP",
+    "city": "São Paulo",
+    "neighborhood": "Centro",
+    "street": "Rua Teste 02",
+    "service": "viacep"
+  },
+  {
+    "cep": "00000-003",
+    "state": "SP",
+    "city": "São Paulo",
+    "neighborhood": "Centro",
+    "street": "Rua Teste 03",
+    "service": "viacep"
+  }
+]
